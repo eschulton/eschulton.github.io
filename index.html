@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt Decrypt</title>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <div class="center mv4 pa4 w-50 shadow-3">
+        <input id="encrypt_unencrypted_text" type="text" class="w-100 mb3 pa3" placeholder="unencrypted text">
+        <input id="encrypt_encryption_key" type="text" class="w-100 mb3 pa3" placeholder="encryption key">
+        <input id="encrypt_encrypted_text" type="text" class="w-100 pa3" placeholder="encrypted text" disabled>
+    </div>
+    <div class="center pa4 w-50 shadow-3">
+        <input id="decrypt_encrypted_text" type="text" class="w-100 mb3 pa3" placeholder="encrypted text">
+        <input id="decrypt_encryption_key" type="text" class="w-100 mb3 pa3" placeholder="encryption key">
+        <input id="decrypt_unencrypted_text" type="text" class="w-100 pa3" placeholder="unencrypted text" disabled>
+    </div>
+</body>
+
+<script>
+
+    document.getElementById("encrypt_unencrypted_text").addEventListener("input", (e) => {
+        const encrypt_encryption_key = document.getElementById("encrypt_encryption_key");
+        const encrypt_encrypted_text = document.getElementById("encrypt_encrypted_text");
+        encrypt_encrypted_text.value = CryptoJS.AES.encrypt(e.currentTarget.value, encrypt_encryption_key.value).toString();
+    });
+    document.getElementById("encrypt_encryption_key").addEventListener("input", (e) => {
+        const encrypt_unencrypted_text = document.getElementById("encrypt_unencrypted_text");
+        const encrypt_encrypted_text = document.getElementById("encrypt_encrypted_text");
+        encrypt_encrypted_text.value = CryptoJS.AES.encrypt(encrypt_unencrypted_text.value, e.currentTarget.value).toString();
+    });
+
+    document.getElementById("decrypt_encrypted_text").addEventListener("input", (e) => {
+        const decrypt_encryption_key = document.getElementById("decrypt_encryption_key");
+        const decrypt_unencrypted_text = document.getElementById("decrypt_unencrypted_text");
+        decrypt_unencrypted_text.value = CryptoJS.AES.decrypt(e.currentTarget.value, decrypt_encryption_key.value).toString(CryptoJS.enc.Utf8);
+    });
+    document.getElementById("decrypt_encryption_key").addEventListener("input", (e) => {
+        const decrypt_encrypted_text = document.getElementById("decrypt_encrypted_text");
+        const decrypt_unencrypted_text = document.getElementById("decrypt_unencrypted_text");
+        decrypt_unencrypted_text.value = CryptoJS.AES.decrypt(decrypt_encrypted_text.value, e.currentTarget.value).toString(CryptoJS.enc.Utf8);
+    });
+
+</script>
+
+</html>
